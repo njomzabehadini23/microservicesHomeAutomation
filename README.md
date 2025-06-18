@@ -1,46 +1,55 @@
-# microservicesHomeAutomation
-# Home Automation System using Microservices
+# Python Home Automation Microservices
 
-This project implements a distributed **Home Automation System** using a **microservices architecture**. The system interacts with Arduino-controlled devices (such as lights and motion sensors) and handles tasks like device control, sensor logging, and notifications. It also demonstrates **fault tolerance** using AWS Lambda and CloudWatch.
+This project implements a home automation system using Python microservices. It was developed as an alternative to Raspberry Pi-based solutions due to connectivity limitations at the university.
 
-## What I Built
+The system consists of multiple independent microservices, each responsible for a specific sensor or device, such as temperature, humidity, light, fan, buzzer, motion detection, and more. These microservices communicate over HTTP and can be deployed on cloud platforms such as AWS using containerization technologies.
 
-I created a modular system where:
-- Each service handles a specific task (device control, logging, notifications).
-- Services communicate over HTTP or MQTT.
-- Arduino devices detect motion and control lights.
-- If a service fails, AWS triggers a serverless function to handle recovery or notify.
+## Project Repository
+
+The full Python code and microservices implementations are available here:  
+[https://github.com/njomzabehadini23/microservicesPython](https://github.com/njomzabehadini23/microservicesPython)
 
 ## Architecture Overview
 
-**Microservices:**
-- `controller-service/` – Turns lights/devices on/off based on input.
-- `sensor-logger-service/` – Collects and logs data from motion/temperature sensors.
-- `notification-service/` – Sends alerts based on sensor input (e.g., motion detected).
-- `aws-fault-handler/` – CloudWatch + Lambda to detect failures and respond.
+- Each device or sensor functionality runs as an individual Flask-based microservice.
+- Services are containerized using Docker.
+- Communication is managed through a gateway service.
+- Deployment is designed to run on AWS ECS with Fargate for serverless container hosting.
+- AWS Elastic Container Registry (ECR) stores container images.
+- Task definitions and service deployments are configured for automatic scaling and reliability.
 
-**Hardware:**
-- Arduino Uno + sensors (e.g., motion, temperature).
-- LED lights connected for automation actions.
+## Deployment
 
-**Cloud:**
-- AWS Lambda for backup logic.
-- AWS CloudWatch to monitor services.
+The application is deployed to AWS Elastic Container Service (ECS) using:
 
-## How to Run
+- Docker to build container images.
+- AWS CLI and Elastic Beanstalk CLI tools for deployment and management.
+- AWS ECR to store Docker images.
+- AWS ECS Fargate to run containers without managing servers.
 
-### 1. Flash Arduino Sketch
-- Upload code from `/arduino/` folder using the Arduino IDE.
+## How to Use
 
-### 2. Run Microservices
-Start each service locally (or Dockerize them if needed):
+1. Clone the repository:  
+   `git clone https://github.com/njomzabehadini23/microservicesPython.git`
 
-```bash
-cd controller-service
-python app.py
+2. Build Docker images for each service.
 
-cd ../sensor-logger-service
-python app.py
+3. Push images to your AWS ECR repositories.
 
-cd ../notification-service
-python app.py
+4. Register task definitions and deploy services on AWS ECS.
+
+5. Access the gateway service endpoint to interact with the home automation system.
+
+## Notes
+
+- The project was developed for academic purposes to simulate a home automation system in a restricted network environment.
+- It is designed for extensibility; additional sensors or devices can be added as independent services.
+- Ensure you have valid AWS credentials and permissions to deploy and manage ECS resources.
+
+## Contact
+
+For questions or collaboration, please open an issue or contact me through GitHub.
+
+---
+
+*Project by njomzabehadini23*
